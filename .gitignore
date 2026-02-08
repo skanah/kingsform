@@ -1,0 +1,55 @@
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+
+# Log files
+logs/
+*.log
+
+# Uploaded files
+uploads/
+
+# Data files
+data/
+
+# Backups
+backups/
+
+# OS generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Icon?
+.npmrc
+.yarnrc
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Temporary folders
+tmp/
+temp/
+
+# Production builds (if any)
+/build/
+/dist/
+/out/
+
+# Sensitive files
+config/secrets.yml
+secrets.json
