@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KingsForms Bookmarklet Solution</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 15px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      header {
+        background: linear-gradient(135deg, #4a6baf, #2c3e50);
+        color: white;
+        padding: 30px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+      }
+
+      .main-content {
+        padding: 30px;
+      }
+
+      .section {
+        background: #f8f9fa;
+        padding: 25px;
+        border-radius: 10px;
+        margin-bottom: 25px;
+        border-left: 4px solid #4a6baf;
+      }
+
+      .section-title {
+        font-size: 1.4rem;
+        margin-bottom: 20px;
+        color: #2c3e50;
+      }
+
+      .code-block {
+        background: #1a1a1a;
+        color: #00ff00;
+        padding: 15px;
+        border-radius: 6px;
+        font-family: "Courier New", monospace;
+        margin: 10px 0;
+        overflow-x: auto;
+        white-space: pre-wrap;
+        border: 1px solid #333;
+        max-height: 400px;
+        overflow-y: auto;
+      }
+
+      .btn {
+        display: inline-block;
+        padding: 12px 24px;
+        background: linear-gradient(135deg, #4a6baf, #3a5a9f);
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 600;
+        transition: all 0.3s;
+        margin: 5px;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .btn-success {
+        background: linear-gradient(135deg, #28a745, #218838);
+      }
+
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin: 20px 0;
+      }
+
+      .control-group {
+        margin-bottom: 20px;
+      }
+
+      .control-label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #2c3e50;
+      }
+
+      .control-input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid #e9ecef;
+        border-radius: 6px;
+        font-size: 1rem;
+      }
+
+      .status-panel {
+        background: #2c3e50;
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        margin-top: 20px;
+      }
+
+      .log-container {
+        background: #1a1a1a;
+        color: #00ff00;
+        padding: 15px;
+        border-radius: 8px;
+        font-family: "Courier New", monospace;
+        height: 200px;
+        overflow-y: auto;
+        margin-top: 15px;
+      }
+
+      .log-entry {
+        margin-bottom: 5px;
+        padding: 5px;
+      }
+
+      .log-success {
+        color: #90ee90;
+      }
+
+      .log-error {
+        color: #ff6b6b;
+      }
+
+      .log-info {
+        color: #7dd3fc;
+      }
+
+      .bookmarklet-box {
+        background: #fff3cd;
+        border: 2px solid #ffeaa7;
+        padding: 20px;
+        border-radius: 8px;
+        margin: 20px 0;
+      }
+
+      .drag-instructions {
+        background: #e7f3ff;
+        padding: 15px;
+        border-radius: 6px;
+        margin: 10px 0;
+        border-left: 4px solid #4a6baf;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>KingsForms Bookmarklet Auto-Submitter v2.0</h1>
+        <p>Enhanced with Retry Logic, Progress Tracking & Advanced Controls</p>
+      </header>
+
+      <div class="main-content">
+        <div class="section">
+          <h3 class="section-title">🎯 Solution: Bookmarklet Method</h3>
+          <p><strong>Problem:</strong> Script stops after page reload</p>
+          <p>
+            <strong>Solution:</strong> Use a bookmarklet that auto-reinjects
+            after each reload
+          </p>
+        </div>
+
+        <div class="bookmarklet-box">
+          <h3>🚀 STEP 1: Create the Bookmarklet</h3>
+          <p>Drag this link to your bookmarks bar:</p>
+          <a
+            href="javascript:(function(){var s=document.createElement('script');s.textContent=`class KingsFormsAutomator{constructor(){this.storageKey='kingsforms_auto_data_v2';this.delay=5000;this.records=[];this.currentIndex=0;this.isRunning=false;this.maxRetries=3;this.retryCount=0;this.randomDelay=false;this.loadFromStorage();console.log('🎯 KingsForms Automator v2.0 Loaded');if(this.records.length>0&&this.currentIndex<this.records.length&&this.isRunning){console.log('🔄 Auto-continuing from previous state...');setTimeout(()=>this.processCurrentRecord(),2000);}}setDelay(seconds){this.delay=seconds*1000;this.saveToStorage();console.log('⏰ Delay set to '+seconds+' seconds');}loadFromStorage(){try{const saved=localStorage.getItem(this.storageKey);if(saved){const data=JSON.parse(saved);this.records=data.records||[];this.currentIndex=data.currentIndex||0;this.delay=data.delay||5000;this.isRunning=data.isRunning||false;console.log('📁 Loaded: '+this.records.length+' records, index: '+this.currentIndex);}}catch(e){console.log('📝 Starting fresh');}}saveToStorage(){const data={records:this.records,currentIndex:this.currentIndex,delay:this.delay,isRunning:this.isRunning,timestamp:Date.now()};localStorage.setItem(this.storageKey,JSON.stringify(data));}clearStorage(){localStorage.removeItem(this.storageKey);this.records=[];this.currentIndex=0;this.isRunning=false;console.log('🗑️ Storage cleared');}fillForm(record){console.log('📝 Filling: '+record['First Name']+' '+record['Last Name']);const fields={'Title':'answer-0','First Name':'answer-1','Last Name':'answer-2','Phone Number':'answer-3','Kingschat Handle':'answer-4','Email':'answer-5','Birthday':'answer-6','Marital Status':'answer-7','Gender':'answer-8','Age':'answer-9','Group':'answer-10','Church Name':'answer-11','Cell Name':'answer-12'};let filledCount=0;Object.keys(fields).forEach(fieldName=>{const fieldId=fields[fieldName];const element=document.getElementById(fieldId);const value=record[fieldName];if(element&&value&&value.trim()){try{if(element.tagName==='SELECT'){let optionFound=false;for(let option of element.options){if(option.text.toLowerCase()===value.toLowerCase()||option.value.toLowerCase()===value.toLowerCase()){element.value=option.value;optionFound=true;break;}}if(!optionFound){console.warn('⚠️ Option not found for '+fieldName+': '+value);}}else if(element.type==='checkbox'||element.type==='radio'){element.checked=value.toLowerCase()==='yes'||value.toLowerCase()==='true'||value==='1';}else{element.value=value.trim();}element.dispatchEvent(new Event('change',{bubbles:true}));element.dispatchEvent(new Event('input',{bubbles:true}));filledCount++;}catch(e){console.warn('⚠️ Error filling '+fieldName+': '+e.message);}}});if(record['Sub-Teams']&&record['Sub-Teams'].trim()){const teams=record['Sub-Teams'].split(',').map(t=>t.trim().toLowerCase());const checkboxes=document.querySelectorAll('input[name="answer-13[]"]');checkboxes.forEach(checkbox=>{const checkboxText=checkbox.value.toLowerCase();checkbox.checked=teams.some(team=>checkboxText.includes(team)||team.includes(checkboxText));});}console.log('✅ Filled '+filledCount+' fields');return filledCount>0;}submitForm(){const submitButton=document.getElementById('submit-button');if(submitButton){submitButton.click();return true;}return false;}getRandomDelay(){if(this.randomDelay){const variation=this.delay*0.2;return this.delay+(Math.random()-0.5)*variation;}return this.delay;}async processCurrentRecord(){if(this.currentIndex>=this.records.length){console.log('🎉 ALL RECORDS COMPLETED!');this.clearStorage();return;}const record=this.records[this.currentIndex];console.log('🔄 PROCESSING '+(this.currentIndex+1)+'/'+this.records.length+': '+record['First Name']+' '+record['Last Name']+' (Attempt '+(this.retryCount+1)+'/'+this.maxRetries+')');try{const submitBtn=document.getElementById('submit-button');if(!submitBtn){throw new Error('Form not ready - submit button not found');}const filled=this.fillForm(record);if(!filled){throw new Error('Failed to fill form fields');}await new Promise(resolve=>setTimeout(resolve,2000));const submitted=this.submitForm();if(!submitted)throw new Error('Submit button not found or not clickable');console.log('✅ SUCCESS: '+record['First Name']+' '+record['Last Name']);this.retryCount=0;this.currentIndex++;this.saveToStorage();if(this.currentIndex<this.records.length){const nextDelay=this.getRandomDelay();console.log('⏳ Waiting '+Math.round(nextDelay/1000)+' seconds...');localStorage.setItem('kingsforms_reinject','true');setTimeout(()=>{console.log('🔄 Reloading page...');window.location.reload();},nextDelay);}else{console.log('🎉 ALL RECORDS COMPLETED!');this.clearStorage();localStorage.removeItem('kingsforms_reinject');}}catch(error){console.error('❌ ERROR: '+error.message);this.retryCount++;if(this.retryCount<this.maxRetries){console.log('🔄 RETRYING in 5 seconds... ('+this.retryCount+'/'+this.maxRetries+')');setTimeout(()=>this.processCurrentRecord(),5000);}else{console.error('💀 MAX RETRIES EXCEEDED for '+record['First Name']+' '+record['Last Name']);this.retryCount=0;this.currentIndex++;this.saveToStorage();if(this.currentIndex<this.records.length){const nextDelay=this.getRandomDelay();setTimeout(()=>window.location.reload(),nextDelay);}}}}startAutomation(records,startIndex){if(startIndex===undefined)startIndex=0;this.records=records;this.currentIndex=startIndex;this.isRunning=true;this.saveToStorage();console.log('🚀 STARTING: '+records.length+' records from #'+(startIndex+1));this.processCurrentRecord();}stop(){this.isRunning=false;this.saveToStorage();localStorage.removeItem('kingsforms_reinject');console.log('🛑 STOPPED');}pause(){this.isRunning=false;this.saveToStorage();console.log('⏸️ PAUSED - Use resume() to continue');}resume(){if(this.records.length>0&&this.currentIndex<this.records.length){this.isRunning=true;this.saveToStorage();console.log('▶️ RESUMED');this.processCurrentRecord();}else{console.log('❌ Nothing to resume');}}status(){const progress=this.records.length>0?Math.round((this.currentIndex/this.records.length)*100):0;console.log('📊 Progress: '+this.currentIndex+'/'+this.records.length+' ('+progress+'%) - Status: '+(this.isRunning?'RUNNING':'STOPPED'));}setRandomDelay(enabled){this.randomDelay=enabled;console.log('🎲 Random delay: '+(enabled?'ENABLED (±20%)':'DISABLED'));}skipTo(index){if(index>=0&&index<this.records.length){this.currentIndex=index;this.retryCount=0;this.saveToStorage();console.log('⏭️ Skipped to record #'+(index+1));if(this.isRunning){this.processCurrentRecord();}}else{console.log('❌ Invalid index');}}}window.KingsFormsAutomator=KingsFormsAutomator;if(localStorage.getItem('kingsforms_reinject')==='true'){localStorage.removeItem('kingsforms_reinject');console.log('🔄 Auto-reinjected after page reload');}window.automator=new KingsFormsAutomator();console.log('✅ Ready! Commands: automator.startAutomation(records)');`;document.head.appendChild(s);})();"
+            class="btn btn-success"
+            id="bookmarkletLink"
+            >📑 KingsForms Auto-Submit</a
+          >
+          <p class="drag-instructions">
+            💡 <strong>Drag this button to your bookmarks bar</strong> to create
+            the automation bookmarklet
+          </p>
+        </div>
+
+        <div class="section">
+          <h3 class="section-title">📋 STEP 2: Upload Your CSV</h3>
+          <div class="control-group">
+            <input
+              type="file"
+              id="csvFile"
+              accept=".csv"
+              class="control-input"
+            />
+          </div>
+          <div class="control-group">
+            <label class="control-label"
+              >Delay between submissions (seconds)</label
+            >
+            <input
+              type="number"
+              id="submissionDelay"
+              class="control-input"
+              min="3"
+              value="5"
+            />
+          </div>
+          <div class="action-buttons">
+            <button class="btn" onclick="processCSV()">Process CSV</button>
+            <button class="btn" onclick="downloadSampleCSV()">
+              Download Sample CSV
+            </button>
+          </div>
+        </div>
+
+        <div class="section">
+          <h3 class="section-title">📜 STEP 3: Copy & Paste This Script</h3>
+          <p>
+            After processing CSV, copy this script and paste in KingsForms
+            console:
+          </p>
+          <pre class="code-block" id="automationScript">
+// KingsForms Auto-Submitter v2.0 - Console Script
+// Paste this in console on https://kingsforms.online/nobphcephzone3
+
+class KingsFormsAutomator {
+  constructor() {
+    this.storageKey = 'kingsforms_auto_data_v2';
+    this.delay = 5000;
+    this.records = [];
+    this.currentIndex = 0;
+    this.isRunning = false;
+    this.maxRetries = 3;
+    this.retryCount = 0;
+    this.randomDelay = false;
+    this.loadFromStorage();
+    if (window.manualLoad) {
+      this.isRunning = false;
+      delete window.manualLoad;
+    }
+    console.log('🎯 KingsForms Automator v2.0 Loaded');
+    if (this.records.length > 0 && this.currentIndex < this.records.length && this.isRunning) {
+      console.log('🔄 Auto-continuing from previous state...');
+      setTimeout(() => this.processCurrentRecord(), 2000);
+    }
+  }
+
+  setDelay(seconds) {
+    this.delay = seconds * 1000;
+    this.saveToStorage();
+    console.log('⏰ Delay set to ' + seconds + ' seconds');
+  }
+
+  loadFromStorage() {
+    try {
+      const saved = localStorage.getItem(this.storageKey);
+      if (saved) {
+        const data = JSON.parse(saved);
+        this.records = data.records || [];
+        this.currentIndex = data.currentIndex || 0;
+        this.delay = data.delay || 5000;
+        this.isRunning = data.isRunning || false;
+        console.log('📁 Loaded: ' + this.records.length + ' records, index: ' + this.currentIndex);
+      }
+    } catch (e) {
+      console.log('📝 Starting fresh');
+    }
+  }
+
+  saveToStorage() {
+    const data = {
+      records: this.records,
+      currentIndex: this.currentIndex,
+      delay: this.delay,
+      isRunning: this.isRunning,
+      timestamp: Date.now()
+    };
+    localStorage.setItem(this.storageKey, JSON.stringify(data));
+  }
+
+  clearStorage() {
+    localStorage.removeItem(this.storageKey);
+    this.records = [];
+    this.currentIndex = 0;
+    this.isRunning = false;
+    console.log('🗑️ Storage cleared');
+  }
+
+  fillForm(record) {
+    console.log('📝 Filling: ' + record['First Name'] + ' ' + record['Last Name']);
+    const fields = {
+      'Title': 'answer-0',
+      'First Name': 'answer-1',
+      'Last Name': 'answer-2',
+      'Phone Number': 'answer-3',
+      'Kingschat Handle': 'answer-4',
+      'Email': 'answer-5',
+      'Birthday': 'answer-6',
+      'Marital Status': 'answer-7',
+      'Gender': 'answer-8',
+      'Age': 'answer-9',
+      'Group': 'answer-10',
+      'Church Name': 'answer-11',
+      'Cell Name': 'answer-12'
+    };
+    let filledCount = 0;
+    Object.keys(fields).forEach(fieldName => {
+      const fieldId = fields[fieldName];
+      const element = document.getElementById(fieldId);
+      const value = record[fieldName];
+      if (element && value && value.trim()) {
+        try {
+          if (element.tagName === 'SELECT') {
+            let optionFound = false;
+            for (let option of element.options) {
+              if (option.text.toLowerCase() === value.toLowerCase() || option.value.toLowerCase() === value.toLowerCase()) {
+                element.value = option.value;
+                optionFound = true;
+                break;
+              }
+            }
+            if (!optionFound) {
+              console.warn('⚠️ Option not found for ' + fieldName + ': ' + value);
+            }
+          } else if (element.type === 'checkbox' || element.type === 'radio') {
+            element.checked = value.toLowerCase() === 'yes' || value.toLowerCase() === 'true' || value === '1';
+          } else {
+            element.value = value.trim();
+          }
+          element.dispatchEvent(new Event('change', { bubbles: true }));
+          element.dispatchEvent(new Event('input', { bubbles: true }));
+          filledCount++;
+        } catch (e) {
+          console.warn('⚠️ Error filling ' + fieldName + ': ' + e.message);
+        }
+      }
+    });
+    // Handle checkboxes for Sub-Teams
+    if (record['Sub-Teams'] && record['Sub-Teams'].trim()) {
+      const teams = record['Sub-Teams'].split(',').map(t => t.trim().toLowerCase());
+      const checkboxes = document.querySelectorAll('input[name="answer-13[]"]');
+      checkboxes.forEach(checkbox => {
+        const checkboxText = checkbox.value.toLowerCase();
+        checkbox.checked = teams.some(team => checkboxText.includes(team) || team.includes(checkboxText));
+      });
+    }
+    console.log('✅ Filled ' + filledCount + ' fields');
+    return filledCount > 0;
+  }
+
+  submitForm() {
+    const submitButton = document.getElementById('submit-button');
+    if (submitButton) {
+      submitButton.click();
+      return true;
+    }
+    return false;
+  }
+
+  getRandomDelay() {
+    if (this.randomDelay) {
+      const variation = this.delay * 0.2;
+      return this.delay + (Math.random() - 0.5) * variation;
+    }
+    return this.delay;
+  }
+
+  async processCurrentRecord() {
+    if (this.currentIndex >= this.records.length) {
+      console.log('🎉 ALL RECORDS COMPLETED!');
+      this.clearStorage();
+      return;
+    }
+    const record = this.records[this.currentIndex];
+    console.log('🔄 PROCESSING ' + (this.currentIndex + 1) + '/' + this.records.length + ': ' + record['First Name'] + ' ' + record['Last Name'] + ' (Attempt ' + (this.retryCount + 1) + '/' + this.maxRetries + ')');
+    try {
+      const submitBtn = document.getElementById('submit-button');
+      if (!submitBtn) {
+        throw new Error('Form not ready - submit button not found');
+      }
+      const filled = this.fillForm(record);
+      if (!filled) {
+        throw new Error('Failed to fill form fields');
+      }
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      const submitted = this.submitForm();
+      if (!submitted) throw new Error('Submit button not found or not clickable');
+      console.log('✅ SUCCESS: ' + record['First Name'] + ' ' + record['Last Name']);
+      this.retryCount = 0;
+      this.currentIndex++;
+      this.saveToStorage();
+      if (this.currentIndex < this.records.length) {
+        const nextDelay = this.getRandomDelay();
+        console.log('⏳ Waiting ' + Math.round(nextDelay/1000) + ' seconds...');
+        localStorage.setItem('kingsforms_reinject', 'true');
+        setTimeout(() => {
+          console.log('🔄 Reloading page...');
+          window.location.reload();
+        }, nextDelay);
+      } else {
+        console.log('🎉 ALL RECORDS COMPLETED!');
+        this.clearStorage();
+        localStorage.removeItem('kingsforms_reinject');
+      }
+    } catch (error) {
+      console.error('❌ ERROR: ' + error.message);
+      this.retryCount++;
+      if (this.retryCount < this.maxRetries) {
+        console.log('🔄 RETRYING in 5 seconds... (' + this.retryCount + '/' + this.maxRetries + ')');
+        setTimeout(() => this.processCurrentRecord(), 5000);
+      } else {
+        console.error('💀 MAX RETRIES EXCEEDED for ' + record['First Name'] + ' ' + record['Last Name']);
+        this.retryCount = 0;
+        this.currentIndex++;
+        this.saveToStorage();
+        if (this.currentIndex < this.records.length) {
+          const nextDelay = this.getRandomDelay();
+          setTimeout(() => window.location.reload(), nextDelay);
+        }
+      }
+    }
+  }
+
+  startAutomation(records, startIndex) {
+    if (startIndex === undefined) startIndex = 0;
+    this.records = records;
+    this.currentIndex = startIndex;
+    this.isRunning = true;
+    this.saveToStorage();
+    console.log('🚀 STARTING: ' + records.length + ' records from #' + (startIndex + 1));
+    this.processCurrentRecord();
+  }
+
+  stop() {
+    this.isRunning = false;
+    this.saveToStorage();
+    localStorage.removeItem('kingsforms_reinject');
+    console.log('🛑 STOPPED');
+  }
+
+  pause() {
+    this.isRunning = false;
+    this.saveToStorage();
+    console.log('⏸️ PAUSED - Use resume() to continue');
+  }
+
+  resume() {
+    if (this.records.length > 0 && this.currentIndex < this.records.length) {
+      this.isRunning = true;
+      this.saveToStorage();
+      console.log('▶️ RESUMED');
+      this.processCurrentRecord();
+    } else {
+      console.log('❌ Nothing to resume');
+    }
+  }
+
+  status() {
+    const progress = this.records.length > 0 ? Math.round((this.currentIndex / this.records.length) * 100) : 0;
+    console.log('📊 Progress: ' + this.currentIndex + '/' + this.records.length + ' (' + progress + '%) - Status: ' + (this.isRunning ? 'RUNNING' : 'STOPPED'));
+  }
+
+  setRandomDelay(enabled) {
+    this.randomDelay = enabled;
+    console.log('🎲 Random delay: ' + (enabled ? 'ENABLED (±20%)' : 'DISABLED'));
+  }
+
+  skipTo(index) {
+    if (index >= 0 && index < this.records.length) {
+      this.currentIndex = index;
+      this.retryCount = 0;
+      this.saveToStorage();
+      console.log('⏭️ Skipped to record #' + (index + 1));
+      if (this.isRunning) {
+        this.processCurrentRecord();
+      }
+    } else {
+      console.log('❌ Invalid index');
+    }
+  }
+}
+
+// Auto-reinject if needed
+if (localStorage.getItem('kingsforms_reinject') === 'true') {
+  localStorage.removeItem('kingsforms_reinject');
+  console.log('🔄 Auto-reinjected after page reload');
+} else {
+  // Manual load, clear previous state to prevent auto-starting
+  localStorage.removeItem('kingsforms_auto_data_v2');
+}
+
+// Create automator instance
+window.automator = new KingsFormsAutomator();
+console.log('✅ Ready! Commands: automator.startAutomation(records)');
+          </pre>
+          <button class="btn" onclick="copyToClipboard('automationScript')">
+            Copy Automation Script
+          </button>
+        </div>
+
+        <div class="section">
+          <h3 class="section-title">📊 STEP 4: Copy Your Records Data</h3>
+          <div class="code-block" id="recordsData">
+            // Process CSV first to generate records
+          </div>
+          <button
+            class="btn btn-success"
+            onclick="copyToClipboard('recordsData')"
+            id="copyDataBtn"
+            disabled
+          >
+            Copy Records Data
+          </button>
+        </div>
+
+        <div class="section">
+          <h3 class="section-title">🎯 EXECUTION INSTRUCTIONS</h3>
+          <div class="code-block">
+            // NEW SIMPLIFIED METHOD (Bookmarklet Only): // 1. DRAG the
+            "KingsForms Auto-Submit" button to your bookmarks bar // 2. OPEN:
+            https://kingsforms.online/nobphcephzone3 // 3. CLICK the bookmarklet
+            you just created (injects the automation script) // 4. PASTE the
+            Records Data (Step 4) in console → Press Enter // WHAT HAPPENS: //
+            • Bookmarklet injects full automation script // • Processes Record
+            1 → Waits → Page Reloads // • Bookmarklet auto-reinjects on reload
+            → Processes Record 2 // • Continues automatically until ALL
+            records done! // • No need to manually paste script each time //
+            ADDITIONAL COMMANDS: // automator.status() - Check progress //
+            automator.pause() - Pause automation // automator.resume() - Resume
+            automation // automator.stop() - Stop completely //
+            automator.skipTo(5) - Skip to record #6 //
+            automator.setRandomDelay(true) - Enable random delays //
+            automator.clearStorage() - Reset everything
+          </div>
+        </div>
+
+        <div class="status-panel">
+          <h3 class="section-title">Processing Status</h3>
+          <div class="log-container" id="logContainer">
+            <div class="log-entry log-info">
+              Ready to create bookmarklet and process CSV
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      let validRecords = [];
+
+      function addLog(message, type = "info") {
+        const logContainer = document.getElementById("logContainer");
+        const logEntry = document.createElement("div");
+        logEntry.className = `log-entry log-${type}`;
+        logEntry.textContent = `[${new Date().toLocaleTimeString()}] ${message}`;
+
+        logContainer.appendChild(logEntry);
+        logContainer.scrollTop = logContainer.scrollHeight;
+      }
+
+      function copyToClipboard(elementId) {
+        const element = document.getElementById(elementId);
+        const text = element.textContent;
+
+        navigator.clipboard
+          .writeText(text)
+          .then(() => {
+            addLog("✅ Copied to clipboard!", "success");
+          })
+          .catch((err) => {
+            const textArea = document.createElement("textarea");
+            textArea.value = text;
+            document.body.appendChild(textArea);
+            textArea.select();
+            document.execCommand("copy");
+            document.body.removeChild(textArea);
+            addLog("✅ Copied to clipboard!", "success");
+          });
+      }
+
+      function processCSV() {
+        const fileInput = document.getElementById("csvFile");
+        if (!fileInput.files.length) {
+          addLog("❌ Please select a CSV file", "error");
+          return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+        const delay = document.getElementById("submissionDelay").value || 5;
+
+        reader.onload = function (e) {
+          try {
+            const csvText = e.target.result;
+            const lines = csvText
+              .split("\n")
+              .filter((line) => line.trim() !== "");
+
+            if (lines.length < 2) {
+              addLog("❌ CSV must have header and data rows", "error");
+              return;
+            }
+
+            // Improved CSV parsing to handle quoted fields
+            const parseCSVLine = (line) => {
+              const result = [];
+              let current = "";
+              let inQuotes = false;
+              for (let i = 0; i < line.length; i++) {
+                const char = line[i];
+                if (char === '"') {
+                  if (inQuotes && line[i + 1] === '"') {
+                    current += '"';
+                    i++; // skip next quote
+                  } else {
+                    inQuotes = !inQuotes;
+                  }
+                } else if (char === "," && !inQuotes) {
+                  result.push(current.trim());
+                  current = "";
+                } else {
+                  current += char;
+                }
+              }
+              result.push(current.trim());
+              return result;
+            };
+
+            const headers = parseCSVLine(lines[0]);
+            validRecords = [];
+
+            for (let i = 1; i < lines.length; i++) {
+              const values = parseCSVLine(lines[i]);
+              const record = {};
+
+              headers.forEach((header, index) => {
+                record[header] = values[index] || "";
+              });
+
+              // Enhanced validation
+              if (
+                record["First Name"] &&
+                record["Last Name"] &&
+                record["First Name"].trim() &&
+                record["Last Name"].trim() &&
+                record["Email"] &&
+                record["Phone Number"]
+              ) {
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(record["Email"].trim())) {
+                  addLog(
+                    `⚠️ Skipping record ${i}: Invalid email format`,
+                    "error"
+                  );
+                  continue;
+                }
+                // Validate phone number (basic check)
+                const phoneRegex = /^\+?\d{10,15}$/;
+                const cleanPhone = record["Phone Number"].replace(/\D/g, "");
+                if (!phoneRegex.test(cleanPhone)) {
+                  addLog(
+                    `⚠️ Skipping record ${i}: Invalid phone number`,
+                    "error"
+                  );
+                  continue;
+                }
+                record["Phone Number"] = cleanPhone; // Clean phone number
+                validRecords.push(record);
+              } else {
+                addLog(
+                  `⚠️ Skipping record ${i}: Missing required fields`,
+                  "error"
+                );
+              }
+            }
+
+            if (validRecords.length === 0) {
+              addLog(
+                "❌ No valid records found. Check CSV format and required fields.",
+                "error"
+              );
+              return;
+            }
+
+            addLog(
+              `✅ Processed ${validRecords.length} valid records`,
+              "success"
+            );
+
+            // Generate records data with improved formatting
+            const recordsData = `
+// RECORDS DATA - Paste after automation script
+
+const records = ${JSON.stringify(validRecords, null, 2)};
+
+// START AUTOMATION
+console.log('🚀 STARTING AUTOMATION...');
+automator.setDelay(${delay});
+automator.startAutomation(records, 0);
+                    `.trim();
+
+            document.getElementById("recordsData").textContent = recordsData;
+            document.getElementById("copyDataBtn").disabled = false;
+
+            addLog("✅ Records data ready!", "success");
+            addLog(
+              "📋 Remember to drag the bookmarklet to your bookmarks bar!",
+              "info"
+            );
+          } catch (error) {
+            addLog("❌ Error processing CSV: " + error.message, "error");
+          }
+        };
+
+        reader.readAsText(file);
+      }
+
+      function downloadSampleCSV() {
+        const sampleCSV = `Title,First Name,Last Name,Phone Number,Kingschat Handle,Email,Birthday,Marital Status,Gender,Age,Group,Church Name,Cell Name,Sub-Teams
+Pastor,John,Doe,08012345678,@johndoe,john@example.com,15th March,Married,Male,Adult ( 20 years and above),CE LIMITLESS GROUP,CE Port Harcourt,Victory Cell,MEDIA`;
+
+        const blob = new Blob([sampleCSV], { type: "text/csv" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "kingsforms_sample.csv";
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+
+        addLog("📥 Sample CSV downloaded", "success");
+      }
+
+
+    </script>
+  </body>
+</html>
