@@ -224,6 +224,10 @@ For issues and questions:
 4. Try with `HEADLESS=true` in .env for debugging
 5. Contact the developer if issues persist
 
+## 👨‍💻 Author
+
+- **Sani Kana** - Creator and Lead Developer
+
 ---
 
 **Version**: 2.0.0  
